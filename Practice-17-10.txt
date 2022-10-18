@@ -1,0 +1,30 @@
+#creating table
+CREATE TABLE EMPLOYEE (
+   id int,
+   name varchar(10),
+   dept varchar(10),
+   salary int,
+   address varchar (20)
+ );
+
+ -- insert
+INSERT INTO EMPLOYEE VALUES (1, 'Clark', 'Sales',1000,'delhi');
+INSERT INTO EMPLOYEE VALUES (2, 'Dave', 'Accounting',2000,'bangalore');
+INSERT INTO EMPLOYEE VALUES (3, 'Ava', 'Sales',3000,'mumbai');
+
+-- fetch 
+SELECT * FROM EMPLOYEE WHERE dept = 'Sales';
+
+create table student(
+id int not null unique,
+NAME varchar (10) not null,
+email varchar(15) not null unique,
+age tinyint check(age>=18),
+status boolean default 1
+);
+
+
+insert into student values(1,'Abc','pree@gmail.com',18,2);
+insert into student values(2,'Efg','efg@gmail.com',20,2);
+insert into student values(3,'Ijk','ijk@gmail.com',21,2);
+select * from student;
