@@ -1,0 +1,77 @@
+USE TRAINING;
+
+CREATE TABLE HOSPITAL(
+PNO INT PRIMARY KEY,
+NAME VARCHAR(20),
+AGE INT,
+DEPARTMENT VARCHAR(25),
+DATEOFADM DATE,
+CHARGES NUMERIC(7,2),
+SEX CHAR(1)
+);
+
+INSERT INTO HOSPITAL VALUES(1, 'APRIL', 62, 'SURGERY', '1998-01-12', 300, 'M'),
+(2, 'ZARINA', 22, 'ENT', '1997-12-12', 250, 'F'),
+(3, 'KAREEM', 32, 'ORTHOPEDIC', '1998-02-19', 200, 'M'),
+(4, 'ARUN', 12, 'SURGERY', '1998-01-11', 300, 'M'),
+(5, 'ZUBIN', 30, 'ENT', '1998-01-12', 250, 'M'),
+(6, 'KETAKI', 16, 'ENT', '1998-02-24', 250, 'F'),
+(7, 'ANKITA', 29, 'CARDIOLOGY', '1998-02-20', 800, 'F'),
+(8, 'ZAREEN', 45, 'GYNAECOLOGIST', '1998-02-22', 300, 'F'),
+(9, 'KUSH', 19, 'CARDIOLOGY', '1998-01-13', 800, 'M'),
+(10, 'SHILPA', 23, 'NUCLEAR MEDICINE', '1998-01-20', 400, 'F');
+
+-- ii) write a command to describe the structure of the above table using triggers
+DESC HOSPITAL;
+-- iii) Display the data in the following manner: Name, "of Age", Age, "got admitted on", Dateofadm. 
+CREATE TABLE HOSP(DISPLAY VARCHAR(100));
+DROP TRIGGER DISPLAY;
+DELIMITER $
+CREATE TRIGGER DISPLAY
+BEFORE INSERT ON HOSPITAL FOR EACH ROW
+BEGIN
+INSERT INTO TEMP VALUES(CONCAT(NEW.NAME, ', of age ', NEW.AGE,' got admitted on ', NEW.DATEOFADM));
+END$
+DELIMITER ;
+
+-- iv) Add one more column in the above table as Address of type char(20)
+ALTER TABLE HOSPITAL ADD ADDRESS CHAR(20);
+
+-- v) Change the size of column Address as char(25)
+ALTER TABLE HOSPITAL MODIFY ADDRESS CHAR(25);
+
+-- vi) modify column address as varchar(25)
+ALTER TABLE HOSPITAL MODIFY ADDRESS VARCHAR(25) ;
+
+-- vii) change the name of column address to home address
+ALTER TABLE HOSPITAL CHANGE ADDRESS HOME_ADDRESS VARCHAR(25);
+
+-- viii) Drop the column Home_Address
+ALTER TABLE HOSPITAL DROP COLUMN HOME_ADDRESS;
+
+-- ix) Rename the table Hospital to Hospital_Data. 
+ALTER TABLE HOSPITAL RENAME HOSPITAL_DATA;
+SELECT * FROM HOSPITAL_DATA;
+
+-- x) Update the age of patients to 30 where patient id is 7
+DELIMITER $
+CREATE TRIGGER UPDATEAGE
+AFTER INSERT ON HOSP FOR EACH ROW
+BEGIN
+UPDATE HOSPITAL SET AGE = 30 WHERE PNO = 7;
+END$
+DELIMITER ;
+DROP TRIGGER UPDATEAGE;
+SELECT * FROM HOSP;
+
+-- xi) Delete all the rows of the table Hospital_Data
+DELIMITER $
+CREATE TRIGGER DELETEALLROW
+AFTER INSERT ON HOSP FOR EACH ROW
+BEGIN
+DELETE FROM HOSPITAL;
+END$
+DELIMITER ;
+
+-- xii) Delete the table Hospital_Data
+DROP TABLE HOPSITAL;
